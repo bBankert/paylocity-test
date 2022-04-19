@@ -11,14 +11,25 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
+
 
 //Just using in memory db for time purposes
-builder.Services.AddDbContext<PersonContext>(options =>
+builder.Services.AddDbContextFactory<PersonContext>(options =>
     options.UseInMemoryDatabase("Employee")
 );
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "AllowAll",
+                      policy =>
+                      {
+                          policy.AllowAnyOrigin();
+                          policy.WithMethods();
+                          policy.AllowAnyHeader();
+                      });
+});
 
+builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
 
 var app = builder.Build();
 
@@ -38,5 +49,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors("AllowAll");
 
 app.Run();

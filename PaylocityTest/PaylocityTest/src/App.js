@@ -13,10 +13,14 @@ const App = () => {
         
 
     async function getEmployees() {
-        const response = await fetch('http://localhost:7234/api/employee');
-        const data = await response.json();
-        this.SetEmployees([...Employees, data]);
-        console.log(data);
+        try {
+            const response = await fetch('https://localhost:7234/api/employee');
+            const data = await response.json();
+            SetEmployees(data);
+        }
+        catch (exception) {
+            console.log(exception);
+        }
     }
 
     //async populateWeatherData() {

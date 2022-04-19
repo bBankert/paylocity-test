@@ -5,8 +5,18 @@ const AddDependent = ({AddDependent}) => {
     const [Name, SetName] = useState('');
     const [Type, SetType] = useState(0);
 
+
+    const HandleAddDependent = (event) => {
+        event.preventDefault();
+        fetch()
+
+    }
+
+
+
+
     return (
-        <form onSubmit={AddDependent}>
+        <form onSubmit={(event) => AddDependent(event)}>
             <label>
                 Name:
                 <input type="text" onChange={(event) => SetName(event.target.value)} />

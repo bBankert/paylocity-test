@@ -31,8 +31,10 @@ namespace PaylocityTest_BackEnd.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllEmployees()
         {
+            var employees = await _employeeRepository.GetAllEmployees(false);
 
-            return Ok(_employeeRepository.GetAllEmployees(false));
+
+            return Ok(employees);
         }
 
 
