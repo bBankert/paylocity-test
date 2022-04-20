@@ -15,10 +15,8 @@ namespace PaylocityTest_BackEnd.Data
         {
             //Model one-to-many relationship
             modelBuilder.Entity<Employee>()
-                .HasMany<Dependent>(employee => employee.Dependents)
-                .WithOne(dependent => dependent.Employee)
-                .HasForeignKey(employee => employee.Id)
-                .OnDelete(DeleteBehavior.ClientCascade);
+                .HasMany(employee => employee.Dependents)
+                .WithOne();
         }
     }
 }

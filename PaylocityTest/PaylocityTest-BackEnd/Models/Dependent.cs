@@ -2,6 +2,6 @@
 {
     public class Dependent : Person
     {
-        public Employee Employee { get; set; }
+        public int EmployeeId { get; set; }
     }
 }

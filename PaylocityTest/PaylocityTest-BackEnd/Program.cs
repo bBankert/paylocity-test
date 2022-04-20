@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PaylocityTest_BackEnd.Data;
 using PaylocityTest_BackEnd.Repositories;
+using PaylocityTest_BackEnd.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContextFactory<PersonContext>(options =>
     options.UseInMemoryDatabase("Employee")
 );
+
+builder.Services.AddTransient<IDtoMapperService, DtoMapperService>();
 
 builder.Services.AddCors(options =>
 {

@@ -1,14 +1,14 @@
+import { List } from '@mui/material';
 import Dependent from './dependent/dependent';
 
 const Dependents = (props) => {
 
-
     return (
-        <div className="dependents">
-            {props.dependents.map((dependent) => (
-                <Dependent key={dependent.id} name={dependent.name} type={dependent.type} />
+        <List>
+            {props.dependents.map((dependent,idx) => (
+                <Dependent key={`dependent-${idx}`} name={dependent.name} type={dependent.type} />
             ))}
-        </div>
+        </List>
         )
 }
 

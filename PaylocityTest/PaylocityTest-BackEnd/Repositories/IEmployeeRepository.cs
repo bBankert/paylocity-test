@@ -16,10 +16,8 @@ namespace PaylocityTest_BackEnd.Repositories
 
         Task AddEmployee(Employee employee);
 
-        Task RemoveEmployee(Employee employee);
+        Task RemoveEmployee(int employeeId);
 
-        Task AddDependent(int employeeId, Dependent dependent);
-
-        Task RemoveDependent(int employeeId, int dependentId);
+        Task UpdateEmployee(Employee employee);
     }
 }

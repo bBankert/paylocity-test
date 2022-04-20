@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PaylocityTest_BackEnd.Models;
 using PaylocityTest_BackEnd.Repositories;
+using PaylocityTest_BackEnd.Services;
 
 namespace PaylocityTest_BackEnd.Controllers
 {
@@ -10,9 +11,11 @@ namespace PaylocityTest_BackEnd.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeRepository _employeeRepository;
-        public EmployeeController(IEmployeeRepository employeeRepository)
+        private readonly IDtoMapperService _dtoMapperService;
+        public EmployeeController(IEmployeeRepository employeeRepository,IDtoMapperService dtoMapperService)
         {
             _employeeRepository = employeeRepository;
+            _dtoMapperService = dtoMapperService;
         }
 
         [HttpGet]
@@ -29,9 +32,9 @@ namespace PaylocityTest_BackEnd.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetAllEmployees()
+        public async Task<IActionResult> GetAllEmployees(bool withDependents)
         {
-            var employees = await _employeeRepository.GetAllEmployees(false);
+            var employees = await _employeeRepository.GetAllEmployees(withDependents);
 
 
             return Ok(employees);
@@ -40,29 +43,22 @@ namespace PaylocityTest_BackEnd.Controllers
 
         [HttpPost]
         [Route("addemployee")]
-        public async Task<IActionResult> AddEmployee([FromBody] Employee employee)
+        public async Task<IActionResult> AddEmployee([FromBody] EmployeeDto employeeDto)
         {
+            Employee employee = _dtoMapperService.MapEmployeeDto(employeeDto);
             await _employeeRepository.AddEmployee(employee);
 
             return Ok(employee);
         }
 
-        [HttpPost]
-        [Route("{employeeId}/adddependent")]
-        public async Task<IActionResult> AddDependent(int employeeId,[FromBody] Dependent dependent)
+        [HttpPatch]
+        [Route("updateemployee")]
+        public async Task<IActionResult> UpdateEmployee([FromBody] EmployeeDto employeeDto)
         {
-            await _employeeRepository.AddDependent(employeeId, dependent);
+            Employee employee = _dtoMapperService.MapEmployeeDto(employeeDto);
+            await _employeeRepository.UpdateEmployee(employee);
 
-            return Ok(dependent);
-        }
-
-        [HttpPost]
-        [Route("{employeeId}/removedependent/{id}")]
-        public async Task<IActionResult> RemoveDependent(int employeeId,int dependentId)
-        {
-            await _employeeRepository.RemoveDependent(employeeId, dependentId);
-
-            return Ok();
+            return Ok(employee);
         }
     }
 }

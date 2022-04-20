@@ -2,6 +2,7 @@
 {
     public class Employee : Person
     {
-        public ICollection<Dependent> Dependents { get; set; }
+        public override PersonType Type => PersonType.Employee;
+        public List<Dependent> Dependents { get; set; }
     }
 }

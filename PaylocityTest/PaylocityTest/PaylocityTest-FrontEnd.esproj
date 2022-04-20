@@ -13,6 +13,8 @@
   <ItemGroup>
     <Folder Include="src\components\add-dependent\" />
     <Folder Include="src\components\dependents\dependent\" />
+    <Folder Include="src\components\loading-modal\" />
+    <Folder Include="src\components\navigation-bar\" />
     <Folder Include="src\containers\MainContainer\" />
     <Folder Include="src\context\" />
   </ItemGroup>

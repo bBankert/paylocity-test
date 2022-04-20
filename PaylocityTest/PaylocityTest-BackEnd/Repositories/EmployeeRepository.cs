@@ -25,50 +25,31 @@ namespace PaylocityTest_BackEnd.Repositories
             }
         }
 
-        public async Task RemoveEmployee(Employee employee)
+        public async Task UpdateEmployee(Employee employee)
         {
-            using (var context = await _contextFactory.CreateDbContextAsync())
+            using(var context = await _contextFactory.CreateDbContextAsync())
             {
-
-                context.Employees.Remove(employee);
-
-                context.SaveChanges();
+                var existingEmployee = context.Employees.Find(employee);
+                if(existingEmployee != null)
+                {
+                    context.Employees.Update(employee);
+                    context.SaveChanges();
+                }
             }
         }
 
-        public async Task AddDependent(int employeeId, Dependent dependent)
+        public async Task RemoveEmployee(int employeeId)
         {
             using (var context = await _contextFactory.CreateDbContextAsync())
             {
-
                 var employee = context.Employees.Where(employee => employee.Id == employeeId).FirstOrDefault();
 
-                if (employee != null)
+                if(employee != null)
                 {
-                    employee.Dependents.Add(dependent);
+                    context.Employees.Remove(employee);
 
                     context.SaveChanges();
                 }
-
-            }
-        }
-
-        public async Task RemoveDependent(int employeeId,int dependentId)
-        {
-            using (var context = await _contextFactory.CreateDbContextAsync())
-            {
-
-                var employee = context.Employees.Where(employee => employee.Id == employeeId).FirstOrDefault();
-
-                var dependent = context.Dependents.Where(dependent => dependent.Id == dependentId).FirstOrDefault();
-
-                if (employee != null && dependent != null)
-                {
-                    employee.Dependents.Remove(dependent);
-
-                    context.SaveChanges();
-                }
-                
             }
         }
 

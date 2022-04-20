@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { ListItem, ListItemText,Chip,Divider } from "@mui/material";
+import React,{ useState } from "react";
 
 
 const Dependent = (props) => {
+
     return (
-        <div className="dependent">
-            <span><strong>{props.Name}</strong></span>
-            <span>{props.Type}</span>
-         </div>
+        <React.Fragment>
+            <Divider />
+            <ListItem>
+                <ListItemText primary={props.name} />
+                <Chip color="success" label={props.type === 1 ? 'Spouse' : 'Child'} />
+            </ListItem>
+        </React.Fragment>
         );
 }
 
