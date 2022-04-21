@@ -14,10 +14,10 @@ namespace PaylocityTest_BackEnd.Repositories
 
         Task<IEnumerable<Employee?>> GetAllEmployees(bool includeDependents);
 
-        Task AddEmployee(Employee employee);
+        Task<bool> AddEmployee(Employee employee);
 
-        Task RemoveEmployee(int employeeId);
+        Task<bool> RemoveEmployee(int employeeId);
 
-        Task UpdateEmployee(Employee employee);
+        Task<bool> UpdateEmployee(Employee employee);
     }
 }

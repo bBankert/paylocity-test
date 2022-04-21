@@ -1,33 +1,16 @@
-import { TableCell, TableRow } from "@mui/material";
-
+import { ListItem,Button } from "@mui/material";
+import { Link } from 'react-router-dom';
 
 
 const Employee = (props) => {
 
-    const MapType = () => {
-        console.log(props.type);
-        switch (props.type) {
-            case 0:
-                return 'Employee';
-            case 1:
-                return 'Spouse';
-            case 2:
-                return 'Child';
-        }
-    }
-
-    const CalculateDependentNumber = () => {
-        console.log(props.dependents);
-        return props.dependents ? props.dependents.length : 0;
-    }
-
-
     return (
-        <TableRow>
-            <TableCell>{props.name}</TableCell>
-            <TableCell>{MapType}</TableCell>
-            <TableCell>{CalculateDependentNumber}</TableCell>
-        </TableRow>
+        <ListItem>
+            <Button variant="outlined" fullWidth component={Link} to={`employee-detail/${props.id}`} sx={{justifyContent:'space-between',padding:'1rem'}}>
+                <span>{props.name}</span>
+                <span>Dependents: {props.dependents ? props.dependents.length : 0}</span>
+            </Button>
+        </ListItem>
         )
 };
 

@@ -14,7 +14,7 @@ namespace PaylocityTest_BackEnd.Repositories
             _contextFactory = contextFactory; ;
         }
 
-        public async Task AddEmployee(Employee employee)
+        public async Task<bool> AddEmployee(Employee employee)
         {
             using (var context = await _contextFactory.CreateDbContextAsync())
             {
@@ -22,23 +22,27 @@ namespace PaylocityTest_BackEnd.Repositories
                 context.Employees.Add(employee);
                 
                 context.SaveChanges();
+
+                return true;
             }
         }
 
-        public async Task UpdateEmployee(Employee employee)
+        public async Task<bool> UpdateEmployee(Employee employee)
         {
             using(var context = await _contextFactory.CreateDbContextAsync())
             {
-                var existingEmployee = context.Employees.Find(employee);
+                var existingEmployee = context.Employees.Find(employee.Id);
                 if(existingEmployee != null)
                 {
                     context.Employees.Update(employee);
                     context.SaveChanges();
+                    return true;
                 }
+                return false;
             }
         }
 
-        public async Task RemoveEmployee(int employeeId)
+        public async Task<bool> RemoveEmployee(int employeeId)
         {
             using (var context = await _contextFactory.CreateDbContextAsync())
             {
@@ -49,7 +53,9 @@ namespace PaylocityTest_BackEnd.Repositories
                     context.Employees.Remove(employee);
 
                     context.SaveChanges();
+                    return true;
                 }
+                return false;
             }
         }
 

@@ -1,4 +1,4 @@
-import { ListItem,Drawer,Divider,List,ListItemText,Toolbar,IconButton } from '@mui/material';
+import { ListItem, Drawer, Divider, List, ListItemText, Toolbar, Button } from '@mui/material';
 import { useNavigate, Link } from 'react-router-dom';
 
 const NavigationBar = () => {
@@ -20,10 +20,10 @@ const NavigationBar = () => {
             <Divider />
             <List>
                 <ListItem>
-                    <Link to="/">All Employees</Link>
+                    <Button variant="text" fullWidth component={Link} to="/">All Employees</Button>
                 </ListItem>
                 <ListItem>
-                    <Link to="add-employee">Add Employee</Link>
+                    <Button variant="text" fullWidth component={Link} to="add-employee">Add Employee</Button>
                 </ListItem>
             </List>
         </Drawer>

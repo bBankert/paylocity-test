@@ -56,9 +56,9 @@ namespace PaylocityTest_BackEnd.Controllers
         public async Task<IActionResult> UpdateEmployee([FromBody] EmployeeDto employeeDto)
         {
             Employee employee = _dtoMapperService.MapEmployeeDto(employeeDto);
-            await _employeeRepository.UpdateEmployee(employee);
+            var result = await _employeeRepository.UpdateEmployee(employee);
 
-            return Ok(employee);
+            return result ? Ok(employee) : Problem();
         }
     }
 }

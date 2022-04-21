@@ -5,6 +5,7 @@ import EmployeeForm from '../../components/employee-form/employee-form';
 import {  Grid, Toolbar, Typography,CssBaseline } from '@mui/material';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import NavigationBar from '../../components/navigation-bar/navigation-bar';
+import EmployeeDetail from '../../components/employee-detail/employee-detail';
 
 const MainContainer = () => {
 
@@ -12,7 +13,7 @@ const MainContainer = () => {
         <React.Fragment>
             <CssBaseline />
             <Toolbar>
-                <Typography variant="h5" noWrap component="div">
+                <Typography variant="h5" noWrap component="div" sx={{margin:'auto'}}>
                     Employee Deduction Calculator
                 </Typography>
             </Toolbar>
@@ -23,6 +24,7 @@ const MainContainer = () => {
                 <Routes>
                     <Route path="/" element={<Employees />} />
                     <Route path="add-employee" element={<EmployeeForm />} />
+                    <Route path="employee-detail/:id" element={<EmployeeDetail />} />
                     <Route path="*" element={<Employees />} />
                 </Routes>
             </Grid>

@@ -1,38 +1,38 @@
 import { AppContext } from '../../context/AppContext';
 import { useContext, useEffect, useState } from 'react';
 import Employee from './employee/employee';
-import { TableContainer, TableHead, TableCell,TableRow,TableBody, Paper } from '@mui/material';
+import { List } from '@mui/material';
 import React from 'react';
 import LoadingModal from '../loading-modal/loading-modal';
 
 
 const Employees = () => {
     const { employees,loading,dispatch } = useContext(AppContext);
-
     useEffect(() => {
         dispatch({
-            type: 'FETCH_EMPLOYEES'
+            type: 'TOGGLE_LOADING'
         });
+        fetch('https://localhost:7234/api/employee?withDependents=true')
+            .then(res => res.json())
+            .then(data => {
+                dispatch({
+                    type: 'SET_EMPLOYEES',
+                    payload: data
+                });
+            })
+            .catch(error => console.log(error));
     },[])
 
     return (
         <React.Fragment>
             {loading ? <LoadingModal /> :
                 (employees && employees.length > 0) ?
-                    <TableContainer component={Paper}>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Name</TableCell>
-                                <TableCell>Type</TableCell>
-                                <TableCell>Depedents</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {employees.map((employee) => (
-                                <Employee key={employee.id} name={employee.name} type={employee.type} dependents={employee.dependents} />
-                            ))}
-                        </TableBody>
-                    </TableContainer> :
+                    <List sx={{minWidth: '50%'}}>
+                        {employees.map((employee) => (
+                            <Employee key={`employee-${employee.id}`} name={employee.name} type={employee.type} dependents={employee.dependents} id={employee.id} />
+                        ))}
+                    </List>
+                    :
                     <p><strong>No employees found...</strong></p>
             }
         </React.Fragment>

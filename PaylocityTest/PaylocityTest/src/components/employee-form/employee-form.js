@@ -13,13 +13,28 @@ const EmployeeForm = () => {
     const HandleSubmit = (event) => {
         event.preventDefault();
         dispatch({
-            type: 'ADD_EMPLOYEE',
-            payload: {
-                name: Name,
-                dependents: dependents
-            }
+            type: 'TOGGLE_LOADING'
         });
-        SetName('');
+        const person = {
+            name: Name,
+            dependents: dependents
+        };
+        fetch('https://localhost:7234/api/employee/addemployee', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(person)
+        })
+        .then(response => response.json())
+        .then(data => {
+            dispatch({
+                type: 'ADD_EMPLOYEE',
+                payload: person
+            });
+            SetName('');
+        })
     }
 
     const HandleNameChange = (event) => {
