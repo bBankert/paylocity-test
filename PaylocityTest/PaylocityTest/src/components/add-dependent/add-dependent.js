@@ -7,7 +7,7 @@ const AddDependent = () => {
     const [Name, SetName] = useState('');
     const [Type, SetType] = useState(0);
 
-    const { dispatch } = useContext(AppContext);
+    const { dispatch,dependents } = useContext(AppContext);
 
 
 
@@ -15,6 +15,7 @@ const AddDependent = () => {
         dispatch({
             type: 'ADD_DEPENDENT',
             payload: {
+                id: dependents.length,
                 name: Name,
                 type: parseInt(Type)
             }
