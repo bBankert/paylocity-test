@@ -10,7 +10,12 @@ const Employees = () => {
     const { employees,loading,dispatch } = useContext(AppContext);
     useEffect(() => {
         dispatch({
-            type: 'TOGGLE_LOADING'
+            type: 'SET_DEPENDENTS',
+            payload: []
+        });
+        dispatch({
+            type: 'SET_LOADING',
+            payload: true
         });
         fetch('https://localhost:7234/api/employee?withDependents=true')
             .then(res => res.json())

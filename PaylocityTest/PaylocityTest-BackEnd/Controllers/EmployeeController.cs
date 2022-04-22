@@ -51,12 +51,12 @@ namespace PaylocityTest_BackEnd.Controllers
             return Ok(employee);
         }
 
-        [HttpPatch]
-        [Route("updateemployee")]
-        public async Task<IActionResult> UpdateEmployee([FromBody] EmployeeDto employeeDto)
+        [HttpPost]
+        [Route("{employeeId}/update")]
+        public async Task<IActionResult> UpdateEmployee(int employeeId,[FromBody] EmployeeDto employeeDto)
         {
             Employee employee = _dtoMapperService.MapEmployeeDto(employeeDto);
-            var result = await _employeeRepository.UpdateEmployee(employee);
+            var result = await _employeeRepository.UpdateEmployee(employeeId,employee);
 
             return result ? Ok(employee) : Problem();
         }
@@ -66,6 +66,15 @@ namespace PaylocityTest_BackEnd.Controllers
         public async Task<IActionResult> DeleteDependent(int employeeId,int dependentId)
         {
             var result = await _employeeRepository.DeleteDependent(employeeId,dependentId);
+
+            return result ? Ok() : Problem();
+        }
+
+        [HttpPost]
+        [Route("{employeeId}/delete")]
+        public async Task<IActionResult> DeleteEmployee(int employeeId)
+        {
+            var result = await _employeeRepository.DeleteEmployee(employeeId);
 
             return result ? Ok() : Problem();
         }

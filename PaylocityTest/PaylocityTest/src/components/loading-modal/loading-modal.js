@@ -3,17 +3,10 @@ import React, { useContext } from 'react';
 import { AppContext} from '../../context/AppContext';
 
 const LoadingModal = () => {
-    const { loading,dispatch } = useContext(AppContext);
-
-    const HandleClose = () => {
-        dispatch({
-
-            type:'TOGGLE_LOADING'
-        })
-    }
+    const { loading } = useContext(AppContext);
 
     return (
-        <Dialog open={loading} onClose={HandleClose}>
+        <Dialog open={loading}>
             <DialogTitle>
                 <strong>Loading... Please wait</strong>
             </DialogTitle>
