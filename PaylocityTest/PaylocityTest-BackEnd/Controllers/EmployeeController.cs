@@ -78,5 +78,15 @@ namespace PaylocityTest_BackEnd.Controllers
 
             return result ? Ok() : Problem();
         }
+
+        [HttpPost]
+        [Route("{employeeId}/dependent/{dependentId}/update")]
+        public async Task<IActionResult> UpdateDependent(int employeeId,int dependentId,[FromBody] DependentDto dependentDto)
+        {
+            var dependent = _dtoMapperService.MapDependentDto(dependentDto);
+            var result = await _employeeRepository.UpdateDependent(employeeId,dependentId, dependent);
+
+            return result ? Ok(dependent) : Problem();
+        }
     }
 }

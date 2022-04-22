@@ -58,7 +58,7 @@ const Dependent = (props) => {
                 </IconButton>
             </ListItem>
             {Editing ?
-                <EditDependent name={props.name} type={props.type} id={props.id} setEditing={SetEditing} /> :
+                <EditDependent name={props.name} type={props.type} id={props.id} employeeId={props.employeeId} setEditing={SetEditing} /> :
                 ''
             }
         </React.Fragment>

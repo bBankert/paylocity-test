@@ -1,6 +1,7 @@
 import { Dialog, DialogContent,Stack,TextField,FormControl,InputLabel,Select,MenuItem,Button } from "@mui/material";
 import { AppContext } from "../../context/AppContext";
 import { useContext,useState,useEffect,memo } from 'react';
+import { useLocation } from "react-router-dom";
 
 
 
@@ -8,6 +9,7 @@ const EditDependent = (props) => {
     const { dispatch } = useContext(AppContext);
     const [Name, SetName] = useState('');
     const [Type, SetType] = useState(0);
+    const location = useLocation();
 
     useEffect(() => {
         SetName(props.name);
@@ -16,15 +18,40 @@ const EditDependent = (props) => {
 
     const HandleClick = () => {
         const dependent = {
-            id: props.id,
+            employeeId: props.employeeId,
             name: Name,
-            type: Type
+            type: Type,
+            id: props.id
         };
         dispatch({
-            type: 'UPDATE_DEPENDENT',
-            payload: dependent
+            type: 'SET_LOADING',
+            payload: true
         });
-        props.setEditing(false);
+        if (location.pathname.includes('employee-detail')) {
+            fetch(`https://localhost:7234/api/employee/${props.employeeId}/dependent/${props.id}/update`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify(dependent)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    dispatch({
+                        type: 'UPDATE_DEPENDENT',
+                        payload: dependent
+                    })
+                    props.setEditing(false);
+                });
+        }
+        else {
+            dispatch({
+                type: 'UPDATE_DEPENDENT',
+                payload: dependent
+            });
+            props.setEditing(false);
+        }
     }
 
     const HandleNameChange = (event) => {
@@ -36,7 +63,7 @@ const EditDependent = (props) => {
     }
 
     return (
-        <Dialog open={true}>
+        <Dialog open={true} onClose={() => props.setEditing(false)}>
             <DialogContent>
                 <Stack spacing={2}>
                     <TextField label="Dependent Name" value={Name} onChange={HandleNameChange} xs={12} />

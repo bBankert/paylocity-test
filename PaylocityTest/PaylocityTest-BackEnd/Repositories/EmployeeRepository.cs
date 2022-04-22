@@ -94,5 +94,22 @@ namespace PaylocityTest_BackEnd.Repositories
             }
             return false;
         }
+
+        public async Task<bool> UpdateDependent(int employeeId,int dependentId, Dependent dependent)
+        {
+            var context = await _contextFactory.CreateDbContextAsync();
+            var employee = context.Employees
+                .Include(employee => employee.Dependents)
+                .Where(employee => employee.Id == employeeId).SingleOrDefault();
+            if(employee != null)
+            {
+                var existingDependent = context.Dependents.Where(dependent => dependent.Id == dependentId).SingleOrDefault();
+                existingDependent.Name = dependent.Name;
+                existingDependent.Type = dependent.Type;
+                context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
     }
 }
