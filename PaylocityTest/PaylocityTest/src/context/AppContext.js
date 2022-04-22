@@ -42,6 +42,11 @@ const AppReducer = (state, action) => {
                 ...state,
                 dependents: action.payload
             };
+        case 'UPDATE_DEPENDENT':
+            return {
+                ...state,
+                dependents: state.dependents.map((dependent) => dependent.id === parseInt(action.payload.id) ? action.payload : dependent)
+            };
         default:
             return state;
     }

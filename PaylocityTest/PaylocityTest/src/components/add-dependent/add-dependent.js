@@ -6,6 +6,7 @@ import { FormControl, TextField, MenuItem,Select, Stack,InputLabel, Button} from
 const AddDependent = () => {
     const [Name, SetName] = useState('');
     const [Type, SetType] = useState(0);
+    const [CurrentIndex, SetCurrentIndex] = useState(0);
 
     const { dispatch } = useContext(AppContext);
 
@@ -15,10 +16,12 @@ const AddDependent = () => {
         dispatch({
             type: 'ADD_DEPENDENT',
             payload: {
+                id: CurrentIndex,
                 name: Name,
                 type: parseInt(Type)
             }
         });
+        SetCurrentIndex(CurrentIndex + 1);
         SetName('');
         SetType(0);
     };

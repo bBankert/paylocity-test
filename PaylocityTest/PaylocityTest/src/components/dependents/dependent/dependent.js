@@ -1,12 +1,16 @@
 import { ListItem, ListItemText, Chip, Divider, IconButton } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import React,{ useContext } from "react";
 import { useLocation } from "react-router-dom";
 import { AppContext } from "../../../context/AppContext";
+import { useState } from 'react';
+import EditDependent from "../../edit-dependent/edit-dependent";
 
 
 const Dependent = (props) => {
     const { dispatch } = useContext(AppContext);
+    const [Editing, SetEditing] = useState(false);
     const location = useLocation();
 
     const HandleClick = () => {
@@ -46,10 +50,17 @@ const Dependent = (props) => {
             <ListItem>
                 <ListItemText primary={props.name} />
                 <Chip color="success" label={props.type === 1 ? 'Spouse' : 'Child'} />
+                <IconButton onClick={() => SetEditing(true)}>
+                    <EditIcon />
+                </IconButton>
                 <IconButton onClick={HandleClick}>
                     <DeleteIcon />
                 </IconButton>
             </ListItem>
+            {Editing ?
+                <EditDependent name={props.name} type={props.type} id={props.id} employeeId={props.employeeId} setEditing={SetEditing} /> :
+                ''
+            }
         </React.Fragment>
         );
 }

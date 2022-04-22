@@ -16,6 +16,9 @@ namespace PaylocityTest_BackEnd.Repositories
 
         Task<bool> AddEmployee(Employee employee);
 
+
+        Task<bool> UpdateDependent(int employeeId,int dependentId,Dependent dependent);
+
         Task<bool> UpdateEmployee(int employeeId,Employee employee);
 
 

@@ -16,6 +16,7 @@
     <Folder Include="src\components\navigation-bar\" />
     <Folder Include="src\components\employee-detail\" />
     <Folder Include="src\components\edit-employee\" />
+    <Folder Include="src\components\edit-dependent\" />
     <Folder Include="src\components\salary-with-benefits\" />
     <Folder Include="src\containers\MainContainer\" />
     <Folder Include="src\context\" />
