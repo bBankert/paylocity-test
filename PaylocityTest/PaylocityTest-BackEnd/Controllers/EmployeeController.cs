@@ -60,5 +60,14 @@ namespace PaylocityTest_BackEnd.Controllers
 
             return result ? Ok(employee) : Problem();
         }
+
+        [HttpPost]
+        [Route("{employeeId}/delete/{dependentId}")]
+        public async Task<IActionResult> DeleteDependent(int employeeId,int dependentId)
+        {
+            var result = await _employeeRepository.DeleteDependent(employeeId,dependentId);
+
+            return result ? Ok() : Problem();
+        }
     }
 }

@@ -16,74 +16,68 @@ namespace PaylocityTest_BackEnd.Repositories
 
         public async Task<bool> AddEmployee(Employee employee)
         {
-            using (var context = await _contextFactory.CreateDbContextAsync())
-            {
-
-                context.Employees.Add(employee);
+            var context = await _contextFactory.CreateDbContextAsync();
+            context.Employees.Add(employee);
                 
-                context.SaveChanges();
+            context.SaveChanges();
 
-                return true;
-            }
+            return true;
         }
 
         public async Task<bool> UpdateEmployee(Employee employee)
         {
-            using(var context = await _contextFactory.CreateDbContextAsync())
+            var context = await _contextFactory.CreateDbContextAsync();
+            var existingEmployee = context.Employees
+                .Include(employee => employee.Dependents)
+                .Where(existingEmployee => existingEmployee.Id == employee.Id)
+                .FirstOrDefault();
+            if (existingEmployee != null)
             {
-                var existingEmployee = context.Employees.Find(employee.Id);
-                if(existingEmployee != null)
-                {
-                    context.Employees.Update(employee);
-                    context.SaveChanges();
-                    return true;
-                }
-                return false;
+                existingEmployee.Name = employee.Name;
+                existingEmployee.Dependents = employee.Dependents;
+                context.SaveChanges();
+                return true;
             }
-        }
-
-        public async Task<bool> RemoveEmployee(int employeeId)
-        {
-            using (var context = await _contextFactory.CreateDbContextAsync())
-            {
-                var employee = context.Employees.Where(employee => employee.Id == employeeId).FirstOrDefault();
-
-                if(employee != null)
-                {
-                    context.Employees.Remove(employee);
-
-                    context.SaveChanges();
-                    return true;
-                }
-                return false;
-            }
+            return false;
         }
 
         public async Task<IEnumerable<Employee?>> GetAllEmployees(bool includeDependents)
         {
-            using (var context = await _contextFactory.CreateDbContextAsync())
+            var context = await _contextFactory.CreateDbContextAsync();
+            if (includeDependents)
             {
-                if (includeDependents)
-                {
-                    return await context.Employees
-                        .Include(employee => employee.Dependents)
-                        .ToListAsync();
-                }
-                else
-                {
-                    return await context.Employees.ToListAsync();
-                }
+                return await context.Employees
+                    .Include(employee => employee.Dependents)
+                    .ToListAsync();
+            }
+            else
+            {
+                return await context.Employees.ToListAsync();
             }
         }
 
         public async Task<Employee?> GetEmployee(int id)
         {
-            using (var context = await _contextFactory.CreateDbContextAsync())
-            {
-                return await context.Employees
+            var context = await _contextFactory.CreateDbContextAsync();
+            return await context.Employees
                     .Include(employee => employee.Dependents)
                     .SingleOrDefaultAsync(employee => employee.Id == id);
+        }
+
+        public async Task<bool> DeleteDependent(int employeeId, int dependentId)
+        {
+            var context = await _contextFactory.CreateDbContextAsync();
+            var employee = context.Employees
+                .Include(employee => employee.Dependents)
+                .Where(employee => employee.Id == employeeId).SingleOrDefault();
+
+            if(employee != null)
+            {
+                employee.Dependents.RemoveAll(dependent => dependent.Id == dependentId);
+                context.SaveChanges();
+                return true;
             }
+            return false;
         }
     }
 }

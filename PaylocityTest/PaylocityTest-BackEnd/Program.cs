@@ -15,7 +15,7 @@ builder.Services.AddSwaggerGen();
 
 
 //Just using in memory db for time purposes
-builder.Services.AddDbContextFactory<PersonContext>(options =>
+builder.Services.AddPooledDbContextFactory<PersonContext>(options =>
     options.UseInMemoryDatabase("Employee")
 );
 

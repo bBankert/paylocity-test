@@ -9,13 +9,6 @@ const AppReducer = (state, action) => {
                 dependents: [],
                 loading: false
             };
-        case 'DELETE_EMPLOYEE':
-            return {
-                ...state,
-                employees: state.employees.filter(
-                    (employee) => employee.id !== action.payload
-                ),
-            };
         case 'ADD_DEPENDENT':
             return {
                 ...state,
@@ -31,6 +24,17 @@ const AppReducer = (state, action) => {
             return {
                 ...state,
                 loading: !state.loading
+            };
+        case 'REMOVE_DEPENDENT':
+            return {
+                ...state,
+                dependents: state.dependents.filter((dependent) => dependent.id !== parseInt(action.payload)),
+                loading: false
+            };
+        case 'SET_DEPENDENTS':
+            return {
+                ...state,
+                dependents: action.payload
             };
         default:
             return state;

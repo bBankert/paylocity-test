@@ -25,7 +25,8 @@ namespace PaylocityTest_BackEnd.Services
             return new Employee
             {
                 Name = employeeDto.Name,
-                Dependents = dependents
+                Dependents = dependents,
+                Id = employeeDto.EmployeeId ?? 0,
             };
         }
     }
