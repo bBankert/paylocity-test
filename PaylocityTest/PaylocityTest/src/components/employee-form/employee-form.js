@@ -3,17 +3,20 @@ import React,{ useContext, useState } from "react";
 import { AppContext } from "../../context/AppContext";
 import AddDependent from '../add-dependent/add-dependent';
 import Dependents from '../dependents/dependents';
+import { useNavigate } from 'react-router-dom';
 
 
 const EmployeeForm = () => {
     const { dispatch,dependents } = useContext(AppContext);
     const [Name, SetName] = useState('');
+    const navigate = useNavigate();
 
 
     const HandleSubmit = (event) => {
         event.preventDefault();
         dispatch({
-            type: 'TOGGLE_LOADING'
+            type: 'SET_LOADING',
+            payload: true
         });
         const person = {
             name: Name,
@@ -33,7 +36,7 @@ const EmployeeForm = () => {
                 type: 'ADD_EMPLOYEE',
                 payload: person
             });
-            SetName('');
+            navigate('/');
         })
     }
 

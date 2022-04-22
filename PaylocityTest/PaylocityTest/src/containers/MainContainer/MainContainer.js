@@ -6,6 +6,7 @@ import {  Grid, Toolbar, Typography,CssBaseline } from '@mui/material';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import NavigationBar from '../../components/navigation-bar/navigation-bar';
 import EmployeeDetail from '../../components/employee-detail/employee-detail';
+import EditEmployee from '../../components/edit-employee/edit-employee';
 
 const MainContainer = () => {
 
@@ -25,6 +26,7 @@ const MainContainer = () => {
                     <Route path="/" element={<Employees />} />
                     <Route path="add-employee" element={<EmployeeForm />} />
                     <Route path="employee-detail/:id" element={<EmployeeDetail />} />
+                    <Route path="edit-employee/:id" element={<EditEmployee />} />
                     <Route path="*" element={<Employees />} />
                 </Routes>
             </Grid>

@@ -24,12 +24,12 @@ namespace PaylocityTest_BackEnd.Repositories
             return true;
         }
 
-        public async Task<bool> UpdateEmployee(Employee employee)
+        public async Task<bool> UpdateEmployee(int employeeId,Employee employee)
         {
             var context = await _contextFactory.CreateDbContextAsync();
             var existingEmployee = context.Employees
                 .Include(employee => employee.Dependents)
-                .Where(existingEmployee => existingEmployee.Id == employee.Id)
+                .Where(existingEmployee => existingEmployee.Id == employeeId)
                 .FirstOrDefault();
             if (existingEmployee != null)
             {
@@ -74,6 +74,21 @@ namespace PaylocityTest_BackEnd.Repositories
             if(employee != null)
             {
                 employee.Dependents.RemoveAll(dependent => dependent.Id == dependentId);
+                context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> DeleteEmployee(int employeeId)
+        {
+            var context = await _contextFactory.CreateDbContextAsync();
+            var employee = context.Employees
+                .Where(employee => employee.Id == employeeId).SingleOrDefault();
+
+            if (employee != null)
+            {
+                context.Employees.Remove(employee);
                 context.SaveChanges();
                 return true;
             }

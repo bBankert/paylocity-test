@@ -20,15 +20,21 @@ const AppReducer = (state, action) => {
                 employees: action.payload,
                 loading: false
             }
-        case 'TOGGLE_LOADING':
+        case 'SET_LOADING':
             return {
                 ...state,
-                loading: !state.loading
+                loading: action.payload
             };
         case 'REMOVE_DEPENDENT':
             return {
                 ...state,
                 dependents: state.dependents.filter((dependent) => dependent.id !== parseInt(action.payload)),
+                loading: false
+            };
+        case 'REMOVE_EMPLOYEE':
+            return {
+                ...state,
+                employees: state.employees.filter((employee) => employee.id !== parseInt(action.payload)),
                 loading: false
             };
         case 'SET_DEPENDENTS':

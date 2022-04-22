@@ -27,16 +27,16 @@ const SalaryWithBenefits = (props) => {
             
             <List>
                 <ListItem>
-                    <ListItemText primary={`Base Weekly Salary: $${WeeklySalary}`} />
+                    <ListItemText primary={`Base Weekly Salary: $${(WeeklySalary).toFixed(2)}`} />
                 </ListItem>
                 <ListItem>
-                    <ListItemText primary={`Annual Salary: $${WeeklySalary * 26}`} />
+                    <ListItemText primary={`Annual Salary: $${(WeeklySalary * 26).toFixed(2)}`} />
                 </ListItem>
                 <ListItem>
                     <ListItemText primary={"Employee Benefit Deductions"} />
                     
                     <Chip color="error" label={`Weekly: ${CalculateIndividualDeductions(props.name, BaseEmployeeDedction)}`} sx={{ marginRight: '1rem' }} />
-                    <Chip color="error" label={`Annually: ${CalculateIndividualDeductions(props.name, BaseEmployeeDedction) * 26}`}  />
+                    <Chip color="error" label={`Annually: ${(CalculateIndividualDeductions(props.name, BaseEmployeeDedction) * 26).toFixed(2)}`}  />
                 </ListItem>
                 {props.dependents && props.dependents.length > 0 ?
                     props.dependents.map((dependent) => (
@@ -44,7 +44,7 @@ const SalaryWithBenefits = (props) => {
                             <Divider />
                             <ListItemText primary={dependent.name} />
                             <Chip color="error" label={`Weekly: ${CalculateIndividualDeductions(dependent.name, BaseDependentDeduction)}`} sx={{ marginRight: '1rem' }} />
-                            <Chip color="error" label={`Annually: ${CalculateIndividualDeductions(dependent.name, BaseDependentDeduction) * 26}`} />
+                            <Chip color="error" label={`Annually: ${(CalculateIndividualDeductions(dependent.name, BaseDependentDeduction) * 26).toFixed(2)}`} />
                         </ListItem>
                     )) : ''
             

@@ -99,14 +99,14 @@ namespace PaylocityTest_BackEndTests.ControllerTests
         public async Task UpdateEmployee_WhenCalled_UpdatesTheEmployeeInTheDatabase()
         {
             _mockMapperService.Setup(mapperService => mapperService.MapEmployeeDto(It.IsAny<EmployeeDto>())).Returns(_testEmployee);
-            _mockEmployeeRepository.Setup(repository => repository.UpdateEmployee(It.IsAny<Employee>())).ReturnsAsync(true);
-            var response = await _controller.UpdateEmployee(new EmployeeDto
+            _mockEmployeeRepository.Setup(repository => repository.UpdateEmployee(It.IsAny<int>(),It.IsAny<Employee>())).ReturnsAsync(true);
+            var response = await _controller.UpdateEmployee(1,new EmployeeDto
             {
                 Name = "tom",
                 EmployeeId = 1,
             }) as ObjectResult;
             Employee employee = response.Value as Employee;
-            _mockEmployeeRepository.Verify(repository => repository.UpdateEmployee(It.IsAny<Employee>()), Times.Once);
+            _mockEmployeeRepository.Verify(repository => repository.UpdateEmployee(It.IsAny<int>(),It.IsAny<Employee>()), Times.Once);
             Assert.AreEqual((int)HttpStatusCode.OK, response.StatusCode);
             Assert.AreEqual(_testEmployee.Id, employee.Id);
         }
@@ -115,13 +115,45 @@ namespace PaylocityTest_BackEndTests.ControllerTests
         public async Task UpdateEmployee_WhenTheEmployeeIsNotFound_DoesNotUpdateTheEmployee()
         {
             _mockMapperService.Setup(mapperService => mapperService.MapEmployeeDto(It.IsAny<EmployeeDto>())).Returns(_testEmployee);
-            _mockEmployeeRepository.Setup(repository => repository.UpdateEmployee(It.IsAny<Employee>())).ReturnsAsync(false);
-            var response = await _controller.UpdateEmployee(new EmployeeDto
+            _mockEmployeeRepository.Setup(repository => repository.UpdateEmployee(It.IsAny<int>(),It.IsAny<Employee>())).ReturnsAsync(false);
+            var response = await _controller.UpdateEmployee(1,new EmployeeDto
             {
                 Name = "tom",
                 EmployeeId = 1,
             }) as ObjectResult;
             Employee employee = response.Value as Employee;
+            Assert.AreEqual((int)HttpStatusCode.InternalServerError, response.StatusCode);
+        }
+
+        [TestMethod]
+        public async Task DeleteDependent_WhenTheDependentIsFound_DeletesTheDependentAndReturnsOk()
+        {
+            _mockEmployeeRepository.Setup(repository => repository.DeleteDependent(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(true);
+            var response = await _controller.DeleteDependent(1, 1) as OkResult;
+            Assert.AreEqual((int)HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [TestMethod]
+        public async Task DeleteDependent_WhenTheDependentIsNotFound_DoesNothingAndReturnsInternalServerError()
+        {
+            _mockEmployeeRepository.Setup(repository => repository.DeleteDependent(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(false);
+            var response = await _controller.DeleteDependent(1, 1) as ObjectResult;
+            Assert.AreEqual((int)HttpStatusCode.InternalServerError, response.StatusCode);
+        }
+
+        [TestMethod]
+        public async Task DeleteEmployee_WhenTheEmployeeIsFound_DeletesTheEmployeeAndReturnsOk()
+        {
+            _mockEmployeeRepository.Setup(repository => repository.DeleteEmployee(It.IsAny<int>())).ReturnsAsync(true);
+            var response = await _controller.DeleteEmployee(1) as OkResult;
+            Assert.AreEqual((int)HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [TestMethod]
+        public async Task DeleteEmployee_WhenTheEmployeeIsNotFound_DeletesTheEmployeeAndReturnsInternalServerError()
+        {
+            _mockEmployeeRepository.Setup(repository => repository.DeleteDependent(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(false);
+            var response = await _controller.DeleteDependent(1, 1) as ObjectResult;
             Assert.AreEqual((int)HttpStatusCode.InternalServerError, response.StatusCode);
         }
     }

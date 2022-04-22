@@ -13,7 +13,8 @@ const Dependent = (props) => {
         //if in employee detail, the dependent already exists in the DB
         //therefore, we want to delete them from the db too
         dispatch({
-            type: 'TOGGLE_LOADING'
+            type: 'SET_LOADING',
+            payload: true
         });
         if (location.pathname.includes('employee-detail')) {
             fetch(`https://localhost:7234/api/employee/${props.employeeId}/delete/${props.id}`, {
