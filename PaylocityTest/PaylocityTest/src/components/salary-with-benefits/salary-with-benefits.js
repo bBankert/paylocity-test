@@ -27,7 +27,7 @@ const SalaryWithBenefits = (props) => {
             
             <List>
                 <ListItem>
-                    <ListItemText primary={`Base Weekly Salary: $${(WeeklySalary).toFixed(2)}`} />
+                    <ListItemText primary={`Base Biweekly Salary: $${(WeeklySalary).toFixed(2)}`} />
                 </ListItem>
                 <ListItem>
                     <ListItemText primary={`Annual Salary: $${(WeeklySalary * 26).toFixed(2)}`} />
@@ -35,7 +35,7 @@ const SalaryWithBenefits = (props) => {
                 <ListItem>
                     <ListItemText primary={"Employee Benefit Deductions"} />
                     
-                    <Chip color="error" label={`Weekly: ${CalculateIndividualDeductions(props.name, BaseEmployeeDedction)}`} sx={{ marginRight: '1rem' }} />
+                    <Chip color="error" label={`Biweekly: ${CalculateIndividualDeductions(props.name, BaseEmployeeDedction)}`} sx={{ marginRight: '1rem' }} />
                     <Chip color="error" label={`Annually: ${(CalculateIndividualDeductions(props.name, BaseEmployeeDedction) * 26).toFixed(2)}`}  />
                 </ListItem>
                 {props.dependents && props.dependents.length > 0 ?
@@ -43,7 +43,7 @@ const SalaryWithBenefits = (props) => {
                         <ListItem key={`dependent-benefit-${dependent.id}`}>
                             <Divider />
                             <ListItemText primary={dependent.name} />
-                            <Chip color="error" label={`Weekly: ${CalculateIndividualDeductions(dependent.name, BaseDependentDeduction)}`} sx={{ marginRight: '1rem' }} />
+                            <Chip color="error" label={`Biweekly: ${CalculateIndividualDeductions(dependent.name, BaseDependentDeduction)}`} sx={{ marginRight: '1rem' }} />
                             <Chip color="error" label={`Annually: ${(CalculateIndividualDeductions(dependent.name, BaseDependentDeduction) * 26).toFixed(2)}`} />
                         </ListItem>
                     )) : ''

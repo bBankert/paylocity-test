@@ -26,7 +26,15 @@ namespace PaylocityTest_BackEndTests.ControllerTests
             Name = "tom",
             Type = PersonType.Employee
         };
-    [TestInitialize]
+
+        private Dependent _testDependent = new Dependent
+        {
+            Id = 1,
+            Name = "tom",
+            Type = PersonType.Child,
+            EmployeeId = 1
+        };
+        [TestInitialize]
         public void Setup()
         {
             _mockEmployeeRepository = new Mock<IEmployeeRepository>();
@@ -150,11 +158,43 @@ namespace PaylocityTest_BackEndTests.ControllerTests
         }
 
         [TestMethod]
-        public async Task DeleteEmployee_WhenTheEmployeeIsNotFound_DeletesTheEmployeeAndReturnsInternalServerError()
+        public async Task DeleteEmployee_WhenTheEmployeeIsNotFound_ReturnsInternalServerError()
         {
             _mockEmployeeRepository.Setup(repository => repository.DeleteDependent(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(false);
             var response = await _controller.DeleteDependent(1, 1) as ObjectResult;
             Assert.AreEqual((int)HttpStatusCode.InternalServerError, response.StatusCode);
+        }
+
+        [TestMethod]
+        public async Task UpdateEmployee_WhenTheEmployeeIsNotFound_DeletesTheEmployeeAndReturnsInternalServerError()
+        {
+            _mockEmployeeRepository.Setup(repository => repository.UpdateDependent(It.IsAny<int>(), It.IsAny<int>(),It.IsAny<Dependent>())).ReturnsAsync(false);
+            _mockMapperService.Setup(service => service.MapDependentDto(It.IsAny<DependentDto>())).Returns(_testDependent);
+            var response = await _controller.UpdateDependent(1, 1,new DependentDto
+            {
+                EmployeeId = 1,
+                Name = "tom",
+                Id = 1,
+                Type = PersonType.Child
+            }) as ObjectResult;
+            Assert.AreEqual((int)HttpStatusCode.InternalServerError, response.StatusCode);
+        }
+
+        [TestMethod]
+        public async Task UpdateEmployee_WhenTheEmployeeIsFound_UpdatesTheEmployeeAndReturnsOkWithTheDependent()
+        {
+            _mockEmployeeRepository.Setup(repository => repository.UpdateDependent(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<Dependent>())).ReturnsAsync(true);
+            _mockMapperService.Setup(service => service.MapDependentDto(It.IsAny<DependentDto>())).Returns(_testDependent);
+            var response = await _controller.UpdateDependent(1, 1, new DependentDto
+            {
+                EmployeeId = 1,
+                Name = "tom",
+                Id = 1,
+                Type = PersonType.Child
+            }) as ObjectResult;
+            Dependent dependent = response.Value as Dependent;
+            Assert.AreEqual((int)HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(PersonType.Child, dependent.Type);
         }
     }
 }

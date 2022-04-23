@@ -8,7 +8,6 @@
     "@mui/icons-material": "^5.6.2",
     "@mui/material": "^5.6.2",
     "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^13.5.0",
     "http-proxy-middleware": "^2.0.4",
     "jest-editor-support": "^30.0.2",
@@ -22,7 +21,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prestart": "node aspnetcore-https && node aspnetcore-react"
+    "prestart": "node aspnetcore-https && node aspnetcore-react",
+    "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache"
   },
   "eslintConfig": {
     "extends": [
@@ -43,6 +43,7 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/react": "^13.1.1",
     "i": "^0.3.7",
     "react-router-dom": "^6.3.0"
   }
