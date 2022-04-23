@@ -14,11 +14,14 @@ const EditEmployee = () => {
 
     useEffect(() => {
         const employee = employees.filter(employee => employee.id === parseInt(id))[0];
-        dispatch({
-            type: 'SET_DEPENDENTS',
-            payload: employee.dependents
-        });
-        SetName(employee.name);
+        if(employee){
+            dispatch({
+                type: 'SET_DEPENDENTS',
+                payload: employee.dependents
+            });
+            SetName(employee.name);
+        }
+        
     },[employees])
 
     const HandleSubmit = (event) => {

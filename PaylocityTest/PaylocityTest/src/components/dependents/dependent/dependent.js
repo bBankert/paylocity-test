@@ -50,10 +50,10 @@ const Dependent = (props) => {
             <ListItem>
                 <ListItemText primary={props.name} />
                 <Chip color="success" label={props.type === 1 ? 'Spouse' : 'Child'} />
-                <IconButton onClick={() => SetEditing(true)}>
+                <IconButton onClick={() => SetEditing(true)} data-testid="edit-dependent-button">
                     <EditIcon />
                 </IconButton>
-                <IconButton onClick={HandleClick}>
+                <IconButton onClick={HandleClick} data-testid="delete-dependent-button">
                     <DeleteIcon />
                 </IconButton>
             </ListItem>

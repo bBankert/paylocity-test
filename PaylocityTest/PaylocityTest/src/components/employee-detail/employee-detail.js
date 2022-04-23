@@ -12,11 +12,13 @@ const EmployeeDetail = () => {
     const [Employee, SetEmployee] = useState(null);
     useEffect(() => {
         const employee = employees.filter(employee => employee.id === parseInt(id))[0];
-        SetEmployee(employee);
-        dispatch({
-            type: 'SET_DEPENDENTS',
-            payload: employee.dependents
-        });
+        if(employee){
+            SetEmployee(employee);
+            dispatch({
+                type: 'SET_DEPENDENTS',
+                payload: employee.dependents
+            });
+        }   
     }, [employees])
 
 

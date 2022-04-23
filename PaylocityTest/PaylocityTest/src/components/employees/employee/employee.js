@@ -37,7 +37,7 @@ const Employee = (props) => {
             <IconButton component={Link} to={`edit-employee/${props.id}`}>
                 <EditIcon />
             </IconButton>
-            <IconButton onClick={HandleClick}>
+            <IconButton onClick={HandleClick} data-testid="delete-employee-button">
                 <DeleteIcon />
             </IconButton>
         </ListItem>
